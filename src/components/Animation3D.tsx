@@ -248,7 +248,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         ctx.arcTo(adjustedX, cardY + cardHeight, adjustedX, cardY, cardRadius);
                         ctx.arcTo(adjustedX, cardY, adjustedX + adjustedWidth, cardY, cardRadius);
                         ctx.closePath();
-                        
+
                         ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
                         ctx.fill();
                         ctx.clip();
@@ -477,15 +477,15 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     loop
                     muted
                     playsInline
-                    className="absolute bottom-[-2rem] left-[30rem] -translate-x-[50%] w-[100%] h-[50%] object-contain pointer-events-none z-0"
+                    className="absolute bottom-[-2rem] left-[60rem] -translate-x-[50%] w-[100%] h-[50%] object-contain pointer-events-none z-0"
                 />
 
                 {/* Top Left Tagline */}
-                <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none select-none">
+                {/* <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none select-none">
                     <p className="font-bebas italic text-3xl sm:text-4xl md:text-5xl text-white/90 leading-none tracking-wide whitespace-nowrap">
                         Breathe Luxury, Feel Serenity.
                     </p>
-                </div>
+                </div> */}
 
                 <canvas
                     ref={canvasRef}
@@ -493,8 +493,8 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     style={{ display: "block" }}
                 />
 
-                {/* Horizontally Stacked Navigation Buttons at the bottom left */}
-                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex flex-row gap-4 md:gap-5 z-20">
+                {/* Horizontally Stacked Navigation Buttons at the bottom right */}
+                <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 flex flex-row gap-4 md:gap-5 z-20">
                     {/* Previous Slide Button (Left) */}
                     <button
                         onClick={handlePrev}
@@ -546,20 +546,20 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     </button>
                 </div>
 
-                {/* Flower Info Overlay (Bottom Right) */}
-                <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 flex flex-col items-start text-left max-w-[320px] sm:max-w-sm md:max-w-lg pointer-events-auto">
+                {/* Flower Info Overlay (Bottom Left) */}
+                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20 flex flex-col items-start text-left max-w-[320px] sm:max-w-sm md:max-w-lg pointer-events-auto">
                     {/* Flower Name */}
-                    <h2 className="font-bebas font-bold text-[4.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none whitespace-nowrap -ml-8 sm:-ml-16 md:-ml-28">
+                    <h2 className="font-bebas font-bold text-[4.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none whitespace-nowrap">
                         {widgets[activeIndex]?.name}
                     </h2>
-                    
+
                     {/* Short Description */}
-                    <p className="mt-3 text-xs sm:text-sm md:text-base font-sans font-light text-white/80 select-none leading-relaxed">
+                    {/* <p className="mt-3 text-xs sm:text-sm md:text-base font-sans font-light text-white/80 select-none leading-relaxed">
                         {widgets[activeIndex]?.desc}
-                    </p>
-                    
+                    </p> */}
+
                     {/* CTA Button */}
-                    <button className="mt-5 px-6 md:px-8 py-2 md:py-2.5 rounded-full bg-white text-black font-sans font-bold text-xs md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] self-end">
+                    <button className="mt-5 px-6 md:px-8 py-2 md:py-2.5 rounded-full bg-white text-black font-sans font-bold text-xs md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] self-start">
                         Discover
                     </button>
                 </div>
