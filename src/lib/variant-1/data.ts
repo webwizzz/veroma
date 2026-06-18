@@ -1,16 +1,16 @@
 import type { Perspective } from './types';
 
 export const images = [
-  '/widget1.jpg',
-  '/widget2.jpg',
-  '/widget3.jpg',
-  '/widget4.jpg',
-  '/widget5.jpg',
-  '/widget6.jpg',
+  '/widget1.png',
+  '/widget2.png',
+  '/widget3.png',
+  '/widget4.png',
+  '/widget5.png',
+  '/widget6.png',
   '/widget7.jpg',
-  '/widget8.jpg',
-  '/widget9.jpg',
-  '/widget10.jpg',
+  '/widget8.png',
+  '/widget9.png',
+  '/widget10.png',
 ];
 
 export const perspectives: Perspective[] = [
@@ -84,3 +84,58 @@ export const imageConfig = {
   width: 1024,
   height: 1024,
 };
+
+export const widgets = [
+  {
+    image: "/widget1.png",
+    name: "Velvet Orchid",
+    desc: "A rare tropical orchid featuring rich, velvet-textured petals of deep violet. It thrives in high-humidity rainforest environments and releases an exotic, captivating fragrance under the canopy at nightfall."
+  },
+  {
+    image: "/widget2.png",
+    name: "Glass Lily",
+    desc: "A stunning architectural lily with translucent, crystalline petals that catch and refract natural sunlight. Symbolizing purity and grace, this delicate flower blooms in cool highland waters and glows softly at dawn."
+  },
+  {
+    image: "/widget3.png",
+    video: "/musk.mp4",
+    name: "Noir Rose",
+    desc: "An exceptionally rare obsidian rose cultivated in rich volcanic soil, displaying velvet black petals with subtle crimson undertones. Its deep, mysterious scent is highly prized by perfumers around the globe."
+  },
+  {
+    image: "/widget4.png",
+    name: "Driftwood",
+    desc: "A wild, rustic peony with soft, ruffled cream petals that appear to drift like silk. Possessing a warm, woody fragrance, it naturally adapts to sandy coastal dunes and rocky shoreline cliffs."
+  },
+  {
+    image: "/widget5.png",
+    name: "Pulse Lotus",
+    desc: "A magnificent aquatic flower with layered, glowing pink petals that open in sync with solar rays. Celebrated for its rhythmic beauty, it floats gracefully on still ponds and purifies its surrounding ecosystem."
+  },
+  {
+    image: "/widget6.png",
+    name: " Hibiscus",
+    desc: "A vibrant, fire-hued hibiscus that flourishes along tropical coastlines under intense equatorial heat. Its bold, flared petals and prominent stamen make it a striking emblem of summer warmth and energy."
+  },
+  {
+    image: "/widget7.jpg",
+    name: "Astra Tulip",
+    desc: "A stellar tulip with deep violet and midnight blue gradients resembling a celestial nebula. This rare cold-tolerant hybrid blooms in early spring, standing tall and resilient against the morning frost."
+  },
+  {
+    image: "/widget8.png",
+    name: "Circuit Dahlia",
+    desc: "A mathematically perfect dahlia showcasing spiral geometric patterns in its golden-orange petals. This mesmerizing symmetry makes it a prime example of natural sacred geometry in modern botany."
+  },
+  {
+    image: "/widget9.png",
+    name: "Lumen Jasmine",
+    desc: "Delicate, star-shaped white flowers that release a soothing, sweet aroma under moonlight. Historically revered for its calming properties, it climbs elegant garden trellises with ease."
+  },
+  {
+    image: "/widget10.png",
+    name: "Sakura",
+    desc: "A mystical dark-purple cherry blossom that uniquely blooms during the cool night hours. Its delicate petals drift softly on the evening breeze, creating a magical, dreamlike atmosphere under the stars."
+  },
+];
+

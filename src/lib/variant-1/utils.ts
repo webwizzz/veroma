@@ -2,6 +2,44 @@ import { Geometry, type OGLRenderingContext } from 'ogl';
 import type { CylinderConfig, ParticleConfig, Perspective } from './types';
 
 /**
+ * Draws an image with object-fit: contain behavior on a canvas
+ */
+export function drawImageContain(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  x: number,
+  y: number,
+  w: number,
+  h: number
+) {
+  const imgRatio = img.naturalWidth / img.naturalHeight;
+  const canvasRatio = w / h;
+
+  let drawW = w;
+  let drawH = h;
+  let drawX = 0;
+  let drawY = 0;
+
+  if (imgRatio > canvasRatio) {
+    // Image is wider than canvas slot ratio
+    drawW = w;
+    drawH = w / imgRatio;
+    drawY = (h - drawH) / 2;
+  } else {
+    // Image is taller than canvas slot ratio
+    drawH = h;
+    drawW = h * imgRatio;
+    drawX = (w - drawW) / 2;
+  }
+
+  ctx.save();
+  ctx.translate(x + drawX, y + drawY + drawH);
+  ctx.scale(1, -1);
+  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, drawW, drawH);
+  ctx.restore();
+}
+
+/**
  * Draws an image with object-fit: cover behavior on a canvas
  */
 export function drawImageCover(
