@@ -52,7 +52,7 @@ const Info = () => {
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-white"
+      className="sticky top-0 w-full overflow-hidden bg-white z-10"
       style={{ height: "100dvh" }}
     >
       {/* 50% width and height, left-aligned, and at the bottom of the section */}
