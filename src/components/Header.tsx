@@ -3,7 +3,7 @@
 
 export const Header = () => {
     return (
-        <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 md:px-12 py-6 md:py-8 pointer-events-none select-none">
+        <header className="fixed bg-white top-0 left-0 w-full z-50 flex justify-between items-center px-2 md:px-4 py-6 md:py-4 pointer-events-none select-none">
             {/* Brand Logo */}
             <div className="pointer-events-auto">
                 <a

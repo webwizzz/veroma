@@ -27,7 +27,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="cursor-none-all relative w-full min-h-[100svh] bg-[#F6F6F6] select-none overflow-x-hidden">
+    <section className="cursor-none-all relative w-full min-h-[100svh] bg-[#ffffff] select-none overflow-x-hidden">
       {/* Header / Navigation Menu Bar */}
       <Header />
 
