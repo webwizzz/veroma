@@ -37,6 +37,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
     // 3D Refs
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const cardRef = useRef<HTMLDivElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const sceneRef = useRef<Transform | null>(null);
     const cameraRef = useRef<Camera | null>(null);
@@ -55,6 +56,10 @@ export const Animation3D: React.FC<Animation3DProps> = ({
     const velocityRef = useRef(0);
     const momentumRef = useRef(0);
     const targetRotationYRef = useRef(1.256637); // Start angle for image 0
+
+    // Scroll tracking for Awwwards-style 3D scroll effect
+    const scrollRef = useRef(0);
+    const targetScrollRef = useRef(0);
 
     const lastClickTimeRef = useRef(0);
 
@@ -92,6 +97,11 @@ export const Animation3D: React.FC<Animation3DProps> = ({
         };
 
         window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+        const handleScroll = () => {
+            targetScrollRef.current = window.scrollY;
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
 
         const renderer = new Renderer({
             canvas: canvasRef.current,
@@ -356,6 +366,25 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         mouseRef.current.x = lerp(mouseRef.current.x, targetMouseRef.current.x, 0.05);
                         mouseRef.current.y = lerp(mouseRef.current.y, targetMouseRef.current.y, 0.05);
 
+                        // Smoothly lerp scroll coordinates
+                        scrollRef.current = lerp(scrollRef.current, targetScrollRef.current, 0.1);
+                        const scrollProgress = Math.min(Math.max(scrollRef.current / window.innerHeight, 0), 1);
+
+                        // Update card transform directly on DOM for maximum 60fps performance
+                        if (cardRef.current) {
+                            const translateZ = scrollProgress * -160;
+                            const translateY = scrollProgress * -40;
+                            const rotateX = scrollProgress * 8;
+                            const scaleVal = 1 - scrollProgress * 0.06;
+                            const opacityVal = 1 - scrollProgress * 0.5;
+                            const brightnessVal = 1 - scrollProgress * 0.3;
+
+                            cardRef.current.style.transition = scrollProgress > 0.01 ? "none" : "opacity 700ms ease-in-out";
+                            cardRef.current.style.transform = `perspective(1200px) translate3d(0, ${translateY}px, ${translateZ}px) rotateX(${rotateX}deg) scale(${scaleVal})`;
+                            cardRef.current.style.opacity = `${opacityVal}`;
+                            cardRef.current.style.filter = `brightness(${brightnessVal})`;
+                        }
+
                         // Gentle floating bobbing motion (vertical translation & slight rotational sway)
                         const time = performance.now();
                         const floatY = Math.sin(time * 0.001) * 0.06;
@@ -449,6 +478,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
         return () => {
             window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", handleResize3D);
             if (animId) cancelAnimationFrame(animId);
         };
@@ -468,7 +498,9 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
             {/* 3D View Container (Rounded Black Card) */}
             <div
+                ref={cardRef}
                 className={`fixed inset-x-6 bottom-6 top-20 z-0 bg-black rounded-[32px] overflow-hidden transition-opacity duration-700 ease-in-out ${is3D ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                style={{ transformOrigin: "bottom center" }}
             >
                 {/* Background Video */}
                 <video

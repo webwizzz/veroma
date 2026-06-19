@@ -1,7 +1,6 @@
 import Hero from "../components/Hero";
 import Info from "./Info";
-import AboutSection from "../components/aboutSection";
-import ScentExperience from "../components/ScentExperience";
+import Innovation from "../components/Innovation";
 import React from "react";
 import Footer from "@/components/footer";
 
@@ -12,9 +11,8 @@ const Home = () => {
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       <Hero />
-      {/* <Info /> */}
-      <AboutSection />
-      <ScentExperience />
+      <Info />
+      <Innovation />
       <Footer />
     </div>
   );
