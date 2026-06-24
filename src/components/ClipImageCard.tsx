@@ -87,7 +87,7 @@ export default function ClipImageCard({
       viewport={{ amount: 0.5, once: true }}
       style={{ ...style }}
       className={cn(
-        "relative z-10 flex h-full flex-col items-center justify-between py-[8vh] text-[#d1ccbf] backdrop-brightness-[60%] md:flex-row md:px-16 md:py-[15vh]",
+        "relative z-10 flex h-full flex-col items-center justify-between py-[8vh] text-[#f6f6f6] backdrop-brightness-[60%] md:flex-row md:px-16 md:py-[15vh]",
         className,
       )}
     >
@@ -102,7 +102,7 @@ export default function ClipImageCard({
           ease: [0.24, 0.43, 0.15, 0.97],
           duration: 0.8,
         }}
-        className="relative z-20 my-[5vh] flex h-[82vh] min-h-fit w-[90%] flex-col items-center justify-between bg-[#D1CCBF] p-6 text-[#2B3530] md:h-full md:max-h-[85vh] md:w-full md:max-w-118 md:px-8 md:py-6 rounded-md shadow-2xl"
+        className="relative z-20 my-[8vh] flex h-[82vh] min-h-fit w-[90%] flex-col items-center justify-between bg-[#f6f6f6] p-6 text-[#2B3530] md:h-full md:max-h-[85vh] md:w-full md:max-w-118 md:px-8 md:py-6 rounded-md shadow-2xl"
       >
         <div className="flex items-center gap-1 text-2xs md:text-sm font-mono font-medium">
           <AnimatedMaskText
@@ -120,7 +120,7 @@ export default function ClipImageCard({
           className="-space-y-1 text-center text-[1.65rem] [line-height:1.1] font-bold md:text-[2.2rem] tracking-tight uppercase"
         />
 
-        <div className="relative aspect-[1.62] w-full overflow-hidden md:aspect-[1.85] border border-black/5 rounded-sm my-3">
+        <div className="relative aspect-[1.62] w-full overflow-hidden md:aspect-[1.85] border border-black/5 rounded-sm ">
           {images.map((eachImage: StaticImageData, index: number) => (
             <ClipImageContainer
               key={"card-image-container-" + (index + 1)}

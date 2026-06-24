@@ -44,7 +44,7 @@ const Eyes = () => {
         <div className="flex gap-10">
           {/* Left Eye */}
           <div className="flex items-center justify-center w-[15vw] h-[15vw] rounded-full bg-zinc-100">
-            <div className="relative w-2/3 h-2/3 rounded-full bg-[#B28C37] flex items-center justify-center">
+            <div className="relative w-2/3 h-2/3 rounded-full bg-[#606060] flex items-center justify-center">
               <div
                 style={{
                   transform: `rotate(${rotate}deg)`,
@@ -58,7 +58,7 @@ const Eyes = () => {
 
           {/* Right Eye */}
           <div className="flex items-center justify-center w-[15vw] h-[15vw] rounded-full bg-zinc-100">
-            <div className="relative w-2/3 h-2/3 rounded-full bg-[#B28C37] flex items-center justify-center">
+            <div className="relative w-2/3 h-2/3 rounded-full bg-[#606060] flex items-center justify-center">
               <div
                 style={{
                   transform: `rotate(${rotate}deg)`,

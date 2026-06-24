@@ -48,7 +48,7 @@ function Innovation() {
     >
       <motion.div
         {...handlers}
-        className="sticky -top-[5vh] h-[110vh] md:-top-[15vh] md:h-[130vh]"
+        className="sticky -top-[5vh] h-[110vh] md:top-0 md:h-[100vh]"
       >
         <ClipImageCard
           scrollYProgress={parentProgress}
