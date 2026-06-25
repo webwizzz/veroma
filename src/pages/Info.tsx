@@ -19,7 +19,6 @@ const Info = () => {
   const pinnedWrapperRef = useRef<HTMLDivElement | null>(null);
   const initialViewRef = useRef<HTMLDivElement | null>(null);
   const revealerRef = useRef<HTMLDivElement | null>(null);
-  const imagesWrapperRef = useRef<HTMLDivElement | null>(null);
   const outroLeftRef = useRef<HTMLDivElement | null>(null);
   const outroRightRef = useRef<HTMLDivElement | null>(null);
   const eyesWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +90,6 @@ const Info = () => {
       !pinnedWrapperRef.current ||
       !initialViewRef.current ||
       !revealerRef.current ||
-      !imagesWrapperRef.current ||
       !outroLeftRef.current ||
       !outroRightRef.current ||
       !eyesWrapperRef.current
@@ -103,7 +101,6 @@ const Info = () => {
     const pinnedWrapper = pinnedWrapperRef.current;
     const initialView = initialViewRef.current;
     const revealer = revealerRef.current;
-    const imagesWrapper = imagesWrapperRef.current;
     const outroLeft = outroLeftRef.current;
     const outroRight = outroRightRef.current;
     const eyesWrapper = eyesWrapperRef.current;
@@ -153,37 +150,19 @@ const Info = () => {
       0.2
     );
 
-    // 3. Staggered cascade of the 3 lobby images
-    const heroImages = gsap.utils.toArray(".info-img", imagesWrapper);
-    const cascadeStart = 0.4;
-    const cascadeStagger = 0.04;
-    const cascadeDuration = 0.16;
-
-    heroImages.forEach((heroImage: any, index: number) => {
-      infoScrollTimeline.to(
-        heroImage,
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          scale: 1,
-          duration: cascadeDuration,
-        },
-        cascadeStart + index * cascadeStagger
-      );
-    });
-
-    // 4. Outro content card scales up
+    // 3. Outro content card scales up (0.26 -> 0.7)
     infoScrollTimeline.to(
       [outroLeft, outroRight],
       {
         scale: 1,
-        duration: cascadeDuration,
+        duration: 0.44,
       },
-      cascadeStart + heroImages.length * cascadeStagger + cascadeStagger * 0.5
+      0.26
     );
 
-    // 5. Hide initial view, revealer, and images behind the outro, and clear background color of pinned wrapper
+    // 4. Hide initial view and revealer behind the outro, and clear background color of pinned wrapper
     infoScrollTimeline.set(
-      [initialView, revealer, imagesWrapper],
+      [initialView, revealer],
       { autoAlpha: 0 },
       0.7
     );
@@ -325,31 +304,20 @@ const Info = () => {
         {/* Phase 2: Revealer */}
         <div ref={revealerRef} className="info-revealer" />
 
-        {/* Phase 3: Cascading Images */}
-        <div ref={imagesWrapperRef} className="info-images-wrapper">
-          <div className="info-img-item info-img">
-            <img src="/assets/hotel_lobby.jpg" alt="Hotels & Hospitality" />
-          </div>
-          <div className="info-img-item info-img">
-            <img src="/assets/office_lobby.jpg" alt="Corporate Offices" />
-          </div>
-          <div className="info-img-item info-img">
-            <img src="/assets/retail_lobby.jpg" alt="Luxury Retail" />
-          </div>
-        </div>
+
 
         {/* Phase 4: Split Outro Content */}
         <div ref={outroLeftRef} className="info-outro-left">
           <div className="info-outro-inner">
-            <h1 className="font-bebas text-white">
-              Thoughtfully engineered scents designed to inspire modern living connections
+            <h1 className="text-white">
+              WHY<br />CHOOSE US?
             </h1>
           </div>
         </div>
         <div ref={outroRightRef} className="info-outro-right">
           <div className="info-outro-inner">
-            <h1 className="font-bebas text-white">
-              Thoughtfully engineered scents designed to inspire modern living connections
+            <h1 className="text-white">
+              WHY<br />CHOOSE US?
             </h1>
           </div>
         </div>

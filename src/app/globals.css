@@ -188,16 +188,17 @@ body {
 }
 
 .info-outro-inner h1 {
-  width: 65%;
-  font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+  width: 100%;
+  font-family: 'Baflion Sans', sans-serif;
+  font-size: clamp(3rem, 10vw, 148px);
   text-transform: uppercase;
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 1024px) {
   .info-outro-inner h1 {
-    width: 90%;
+    width: 100%;
   }
 }
