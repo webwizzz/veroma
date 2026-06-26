@@ -13,6 +13,7 @@
   --font-mono: var(--font-geist-mono);
   --font-cormorant: var(--font-cormorant-garamond);
   --font-bebas: 'Bebas Neue', sans-serif;
+  --font-baflion: var(--font-baflion-sans), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -189,7 +190,7 @@ body {
 
 .info-outro-inner h1 {
   width: 100%;
-  font-family: 'Baflion Sans', sans-serif;
+  font-family: var(--font-baflion);
   font-size: clamp(3rem, 10vw, 148px);
   text-transform: uppercase;
   font-weight: 900;
