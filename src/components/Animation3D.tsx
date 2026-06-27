@@ -37,6 +37,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
     // 3D Refs
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const cardRef = useRef<HTMLDivElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const sceneRef = useRef<Transform | null>(null);
     const cameraRef = useRef<Camera | null>(null);
@@ -55,6 +56,10 @@ export const Animation3D: React.FC<Animation3DProps> = ({
     const velocityRef = useRef(0);
     const momentumRef = useRef(0);
     const targetRotationYRef = useRef(1.256637); // Start angle for image 0
+
+    // Scroll tracking for Awwwards-style 3D scroll effect
+    const scrollRef = useRef(0);
+    const targetScrollRef = useRef(0);
 
     const lastClickTimeRef = useRef(0);
 
@@ -92,6 +97,11 @@ export const Animation3D: React.FC<Animation3DProps> = ({
         };
 
         window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+        const handleScroll = () => {
+            targetScrollRef.current = window.scrollY;
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
 
         const renderer = new Renderer({
             canvas: canvasRef.current,
@@ -248,7 +258,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         ctx.arcTo(adjustedX, cardY + cardHeight, adjustedX, cardY, cardRadius);
                         ctx.arcTo(adjustedX, cardY, adjustedX + adjustedWidth, cardY, cardRadius);
                         ctx.closePath();
-                        
+
                         ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
                         ctx.fill();
                         ctx.clip();
@@ -356,6 +366,25 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         mouseRef.current.x = lerp(mouseRef.current.x, targetMouseRef.current.x, 0.05);
                         mouseRef.current.y = lerp(mouseRef.current.y, targetMouseRef.current.y, 0.05);
 
+                        // Smoothly lerp scroll coordinates
+                        scrollRef.current = lerp(scrollRef.current, targetScrollRef.current, 0.1);
+                        const scrollProgress = Math.min(Math.max(scrollRef.current / window.innerHeight, 0), 1);
+
+                        // Update card transform directly on DOM for maximum 60fps performance
+                        if (cardRef.current) {
+                            const translateZ = scrollProgress * -160;
+                            const translateY = scrollProgress * -40;
+                            const rotateX = scrollProgress * 8;
+                            const scaleVal = 1 - scrollProgress * 0.06;
+                            const opacityVal = 1 - scrollProgress * 0.5;
+                            const brightnessVal = 1 - scrollProgress * 0.3;
+
+                            cardRef.current.style.transition = scrollProgress > 0.01 ? "none" : "opacity 700ms ease-in-out";
+                            cardRef.current.style.transform = `perspective(1200px) translate3d(0, ${translateY}px, ${translateZ}px) rotateX(${rotateX}deg) scale(${scaleVal})`;
+                            cardRef.current.style.opacity = `${opacityVal}`;
+                            cardRef.current.style.filter = `brightness(${brightnessVal})`;
+                        }
+
                         // Gentle floating bobbing motion (vertical translation & slight rotational sway)
                         const time = performance.now();
                         const floatY = Math.sin(time * 0.001) * 0.06;
@@ -449,6 +478,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
         return () => {
             window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", handleResize3D);
             if (animId) cancelAnimationFrame(animId);
         };
@@ -468,7 +498,9 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
             {/* 3D View Container (Rounded Black Card) */}
             <div
+                ref={cardRef}
                 className={`fixed inset-x-6 bottom-6 top-20 z-0 bg-black rounded-[32px] overflow-hidden transition-opacity duration-700 ease-in-out ${is3D ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                style={{ transformOrigin: "bottom center" }}
             >
                 {/* Background Video */}
                 <video
@@ -477,15 +509,15 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     loop
                     muted
                     playsInline
-                    className="absolute bottom-[-2rem] left-[30rem] -translate-x-[50%] w-[100%] h-[50%] object-contain pointer-events-none z-0"
+                    className="absolute bottom-[-2rem] left-[60rem] -translate-x-[50%] w-[100%] h-[50%] object-contain pointer-events-none z-0"
                 />
 
                 {/* Top Left Tagline */}
-                <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none select-none">
+                {/* <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none select-none">
                     <p className="font-bebas italic text-3xl sm:text-4xl md:text-5xl text-white/90 leading-none tracking-wide whitespace-nowrap">
                         Breathe Luxury, Feel Serenity.
                     </p>
-                </div>
+                </div> */}
 
                 <canvas
                     ref={canvasRef}
@@ -493,8 +525,8 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     style={{ display: "block" }}
                 />
 
-                {/* Horizontally Stacked Navigation Buttons at the bottom left */}
-                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex flex-row gap-4 md:gap-5 z-20">
+                {/* Horizontally Stacked Navigation Buttons at the bottom right */}
+                <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 flex flex-row gap-4 md:gap-5 z-20">
                     {/* Previous Slide Button (Left) */}
                     <button
                         onClick={handlePrev}
@@ -546,20 +578,20 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     </button>
                 </div>
 
-                {/* Flower Info Overlay (Bottom Right) */}
-                <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 flex flex-col items-start text-left max-w-[320px] sm:max-w-sm md:max-w-lg pointer-events-auto">
+                {/* Flower Info Overlay (Bottom Left) */}
+                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20 flex flex-col items-start text-left max-w-[320px] sm:max-w-sm md:max-w-lg pointer-events-auto">
                     {/* Flower Name */}
-                    <h2 className="font-bebas font-bold text-[4.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none whitespace-nowrap -ml-8 sm:-ml-16 md:-ml-28">
+                    <h2 className="font-bebas font-bold text-[4.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none whitespace-nowrap">
                         {widgets[activeIndex]?.name}
                     </h2>
-                    
+
                     {/* Short Description */}
-                    <p className="mt-3 text-xs sm:text-sm md:text-base font-sans font-light text-white/80 select-none leading-relaxed">
+                    {/* <p className="mt-3 text-xs sm:text-sm md:text-base font-sans font-light text-white/80 select-none leading-relaxed">
                         {widgets[activeIndex]?.desc}
-                    </p>
-                    
+                    </p> */}
+
                     {/* CTA Button */}
-                    <button className="mt-5 px-6 md:px-8 py-2 md:py-2.5 rounded-full bg-white text-black font-sans font-bold text-xs md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] self-end">
+                    <button className="mt-5 px-6 md:px-8 py-2 md:py-2.5 rounded-full bg-white text-black font-sans font-bold text-xs md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] self-start">
                         Discover
                     </button>
                 </div>

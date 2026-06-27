@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -163,7 +163,8 @@ export const ScentExperience = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 w-full bg-white text-black py-16 md:py-32 px-2 md:px-4 select-none"
+      className="relative z-1 w-full bg-white rounded-t-[10rem] text-black py-16 md:py-32 px-2 md:px-4 select-none"
+      style={{ marginTop: "500vh" }}
     >
       {/* Top Header Row */}
       <div className="relative w-full max-w-7xl mx-auto flex flex-col justify-between items-start mb-16 md:mb-24">

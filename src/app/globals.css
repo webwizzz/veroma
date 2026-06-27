@@ -13,6 +13,8 @@
   --font-mono: var(--font-geist-mono);
   --font-cormorant: var(--font-cormorant-garamond);
   --font-bebas: 'Bebas Neue', sans-serif;
+  --font-baflion: var(--font-baflion-sans), sans-serif;
+  --font-montreal: var(--font-neue-montreal), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -95,5 +97,143 @@ body {
   .hero-zoom {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* Fame Estate Scroll Animation Classes */
+.info-section-container {
+  position: relative;
+  width: 100%;
+}
+
+.info-pinned-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.info-initial-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+  z-index: 1;
+}
+
+.info-revealer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #171717;
+  z-index: 2;
+  clip-path: polygon(49.5% 50%, 50.5% 50%, 50.5% 50%, 49.5% 50%);
+  will-change: clip-path;
+}
+
+.info-images-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.info-img-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(0);
+  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  will-change: transform, clip-path;
+}
+
+.info-img-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-outro-left,
+.info-outro-right {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #171717;
+  color: #f6f6f6;
+  padding: 2rem;
+  z-index: 4;
+  will-change: transform;
+}
+
+.info-outro-left {
+  clip-path: polygon(0% 0%, 50.5% 0%, 50.5% 100%, 0% 100%);
+}
+
+.info-outro-right {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+}
+
+.info-outro-inner h1 {
+  width: 100%;
+  font-family: var(--font-baflion);
+  font-size: clamp(3rem, 10vw, 148px);
+  text-transform: uppercase;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 1024px) {
+  .info-outro-inner h1 {
+    width: 100%;
+  }
+}
+
+/* Solutions Section Subgrid Alignment */
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto;
+}
+
+.solutions-card {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+@media (max-width: 1024px) {
+  .solutions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 3rem 2rem;
+  }
+  .solutions-card {
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .solutions-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }

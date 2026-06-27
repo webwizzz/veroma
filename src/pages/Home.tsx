@@ -1,9 +1,7 @@
+import Footer from "@/components/footer";
 import Hero from "../components/Hero";
 import Info from "./Info";
-import AboutSection from "../components/aboutSection";
-import ScentExperience from "../components/ScentExperience";
-import React from "react";
-import Footer from "@/components/footer";
+import BrainScent from "../components/BrainScent";
 
 const Home = () => {
   return (
@@ -12,9 +10,8 @@ const Home = () => {
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       <Hero />
-      {/* <Info /> */}
-      <AboutSection />
-      <ScentExperience />
+      <Info />
+      <BrainScent style={{ marginTop: "500vh" }} />
       <Footer />
     </div>
   );
