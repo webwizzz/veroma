@@ -2,6 +2,46 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { WindowSizeProvider } from "@/app/providers";
+import localFont from "next/font/local"
+
+
+const neue = localFont({
+  src: "../fonts/neue.otf",
+  variable: '--font-neue'
+})
+
+const neuebold = localFont({
+  src: "../fonts/neuebold.otf",
+  variable: '--font-neuebold'
+})
+const neuebolditalic = localFont({
+  src: "../fonts/neuebolditalic.otf",
+  variable: '--font-neuebolditalic'
+})
+const neueitalic = localFont({
+  src: "../fonts/neueitalic.otf",
+  variable: '--font-neueitalic'
+})
+
+const neueitaliclight = localFont({
+  src: "../fonts/neuelightitalic.otf",
+  variable: '--font-neueitaliclight'
+})
+
+const neuemedium = localFont({
+  src: "../fonts/neuemedium.otf",
+  variable: '--font-neuemedium'
+})
+
+const neuemediumitlaic = localFont({
+  src: "../fonts/neuemediumitalic.otf",
+  variable: '--font-neuemediumitlaic'
+})
+
+const baflion = localFont({
+  src: "../fonts/baflion.otf",
+  variable: '--font-baflion'
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorantGaramond.variable} h-full antialiased`}
+      className={`${neue.variable} ${neuebold.variable} ${neuebolditalic.variable} ${neueitalic.variable} ${neueitaliclight.variable} ${neuemedium.variable} ${neuemediumitlaic.variable} ${baflion.variable} ${geistSans.variable} ${geistMono.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <WindowSizeProvider>

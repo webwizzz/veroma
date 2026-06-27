@@ -13,6 +13,14 @@
   --font-mono: var(--font-geist-mono);
   --font-cormorant: var(--font-cormorant-garamond);
   --font-bebas: 'Bebas Neue', sans-serif;
+  --font-neue: var(--font-neue);
+  --font-neuebold: var(--font-neuebold);
+  --font-neuebolditalic: var(--font-neuebolditalic);
+  --font-neueitalic: var(--font-neueitalic);
+  --font-neueitaliclight: var(--font-neueitaliclight);
+  --font-neuemedium: var(--font-neuemedium);
+  --font-neuemediumitlaic: var(--font-neuemediumitlaic);
+  --font-baflion: var(--font-baflion);
 }
 
 @media (prefers-color-scheme: dark) {
