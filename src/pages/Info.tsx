@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import RevealLayer from "../components/RevealLayer";
 import useFluidCursor from "../hooks/useFluidCursor";
-import Eyes from "../components/Eyes";
+import Solutions from "../components/Solutions";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -195,7 +195,7 @@ const Info = () => {
       0.7
     );
 
-    // 7. Spacer to keep Eyes sticky for an extra viewport while Innovation slides up
+    // 7. Spacer to keep Solutions sticky for an extra viewport while Innovation slides up
     infoScrollTimeline.set({}, {}, 1.2);
 
     return () => {
@@ -214,9 +214,9 @@ const Info = () => {
         ref={pinnedWrapperRef}
         className="info-pinned-wrapper bg-[#f6f6f6] rounded-t-[50px] border-[#606060] select-none"
       >
-        {/* Eyes section sitting behind everything */}
+        {/* Solutions section sitting behind everything */}
         <div ref={eyesWrapperRef} className="absolute inset-0 z-[2] pointer-events-auto">
-          <Eyes />
+          <Solutions />
         </div>
 
         {/* Phase 1: Initial View */}

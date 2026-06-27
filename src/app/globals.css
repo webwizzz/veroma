@@ -14,6 +14,7 @@
   --font-cormorant: var(--font-cormorant-garamond);
   --font-bebas: 'Bebas Neue', sans-serif;
   --font-baflion: var(--font-baflion-sans), sans-serif;
+  --font-montreal: var(--font-neue-montreal), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -201,5 +202,38 @@ body {
 @media (max-width: 1024px) {
   .info-outro-inner h1 {
     width: 100%;
+  }
+}
+
+/* Solutions Section Subgrid Alignment */
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto;
+}
+
+.solutions-card {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+@media (max-width: 1024px) {
+  .solutions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 3rem 2rem;
+  }
+  .solutions-card {
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .solutions-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
