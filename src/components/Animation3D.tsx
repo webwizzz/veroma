@@ -620,16 +620,19 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         ref={nameRef}
                         className="font-bebas font-bold text-[5.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none md:whitespace-nowrap whitespace-normal"
                     >
-                        {(widgets[activeIndex]?.name || "").split(" ").map((word, wIdx, arr) => (
-                            <span key={wIdx} className="inline-block whitespace-nowrap">
-                                {word.split("").map((char, cIdx) => (
-                                    <span key={cIdx} className="char inline-block">
-                                        {char}
-                                    </span>
-                                ))}
-                                {wIdx < arr.length - 1 && "\u00A0"}
-                            </span>
-                        ))}
+                        <span className="sr-only">{widgets[activeIndex]?.name || ""}</span>
+                        <span aria-hidden="true">
+                            {(widgets[activeIndex]?.name || "").split(" ").map((word, wIdx, arr) => (
+                                <span key={wIdx} className="inline-block whitespace-nowrap">
+                                    {word.split("").map((char, cIdx) => (
+                                        <span key={cIdx} className="char inline-block">
+                                            {char}
+                                        </span>
+                                    ))}
+                                    {wIdx < arr.length - 1 && "\u00A0"}
+                                </span>
+                            ))}
+                        </span>
                     </h2>
 
                     {/* Short Description */}
