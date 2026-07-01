@@ -4,8 +4,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import RevealLayer from "../components/RevealLayer";
-import useFluidCursor from "../hooks/useFluidCursor";
 import Solutions from "../components/Solutions";
+import useFluidCursor from "../hooks/useFluidCursor";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +22,8 @@ const Info = () => {
   const outroLeftRef = useRef<HTMLDivElement | null>(null);
   const outroRightRef = useRef<HTMLDivElement | null>(null);
   const eyesWrapperRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const descRef = useRef<HTMLParagraphElement | null>(null);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -130,6 +132,60 @@ const Info = () => {
       },
     });
 
+    // 0. Character scaleY animation on title (Option B: play once when section enters)
+    const chars = titleRef.current?.querySelectorAll(".char");
+    let titleAnimation: gsap.core.Tween | null = null;
+    if (chars && chars.length > 0) {
+      titleAnimation = gsap.fromTo(
+        chars,
+        {
+          "will-change": "transform, opacity",
+          transformOrigin: "50% 100%",
+          scaleY: 0,
+          opacity: 0,
+        },
+        {
+          ease: "power3.out",
+          opacity: 1,
+          scaleY: 1,
+          stagger: 0.03,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+
+    // 0.2. Character scaleY animation on description paragraph (plays once when section enters)
+    const descChars = descRef.current?.querySelectorAll(".char");
+    let descAnimation: gsap.core.Tween | null = null;
+    if (descChars && descChars.length > 0) {
+      descAnimation = gsap.fromTo(
+        descChars,
+        {
+          "will-change": "transform, opacity",
+          transformOrigin: "50% 100%",
+          scaleY: 0,
+          opacity: 0,
+        },
+        {
+          ease: "power3.out",
+          opacity: 1,
+          scaleY: 1,
+          stagger: 0.008,
+          duration: 0.7,
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+
     // 1. Initial background/revealer thin line (0 -> 0.2)
     infoScrollTimeline.to(
       revealer,
@@ -200,6 +256,12 @@ const Info = () => {
 
     return () => {
       infoScrollTimeline.kill();
+      if (titleAnimation) {
+        titleAnimation.kill();
+      }
+      if (descAnimation) {
+        descAnimation.kill();
+      }
       ScrollTrigger.getAll().forEach((st) => {
         if (st.vars.trigger === trigger) {
           st.kill();
@@ -228,24 +290,43 @@ const Info = () => {
           />
 
           {/* Top Left Content: Title and Paragraph */}
-          <div className="absolute top-8 left-8 right-8 md:top-14 md:left-14 md:right-14 z-20 text-left">
-            <h2 className="font-bebas text-[6.5vw] font-bold uppercase tracking-[0.02em] leading-none text-black select-none whitespace-nowrap">
-              Fragrance, Thoughtfully Engineered
+          <div className="absolute top-8 left-6 right-6 md:top-14 md:left-14 md:right-14 z-20 text-left">
+            <h2
+              ref={titleRef}
+              className="font-bebas text-[11vw] sm:text-[9vw] md:text-[6.5vw] font-bold uppercase tracking-[0.02em] leading-none text-black select-none"
+            >
+              {"Fragrance, Thoughtfully Engineered".split(" ").map((word, wIdx, arr) => (
+                <span key={wIdx} className="inline-block whitespace-nowrap">
+                  {word.split("").map((char, cIdx) => (
+                    <span key={cIdx} className="char inline-block">
+                      {char}
+                    </span>
+                  ))}
+                  {wIdx < arr.length - 1 && "\u00A0"}
+                </span>
+              ))}
             </h2>
             <p
-              className="font-normal text-[18px] md:text-[24px] text-[#606060] leading-[22px] md:leading-[30px] tracking-normal max-w-[900px] mt-4 md:mt-6"
-              style={{ fontFamily: "'Neue Montreal', 'Geist Sans', -apple-system, sans-serif" }}
+              ref={descRef}
+              className="font-normal text-[16px] sm:text-[18px] md:text-[24px] text-[#606060] leading-[24px] sm:leading-[26px] md:leading-[30px] tracking-normal max-w-[900px] mt-3 md:mt-6"
             >
-              At Veroma, we believe fragrance shapes how a space is experienced.
-              Through carefully developed scent solutions, we create elevated environments
-              that inspire comfort and lasting impressions.
+              {"At Veroma, we believe fragrance shapes how a space is experienced. Through carefully developed scent solutions, we create elevated environments that inspire comfort and lasting impressions.".split(" ").map((word, wIdx, arr) => (
+                <span key={wIdx} className="inline-block whitespace-nowrap">
+                  {word.split("").map((char, cIdx) => (
+                    <span key={cIdx} className="char inline-block">
+                      {char}
+                    </span>
+                  ))}
+                  {wIdx < arr.length - 1 && "\u00A0"}
+                </span>
+              ))}
             </p>
           </div>
 
           {/* 50% width and height, left-aligned, and at the bottom of the section */}
           <div
             ref={containerRef}
-            className="absolute left-0 bottom-0 w-[70%] h-[70%] overflow-hidden z-10"
+            className="absolute left-0 bottom-0 w-full h-[55%] sm:w-[85%] sm:h-[60%] md:w-[70%] md:h-[70%] overflow-hidden z-10"
           >
             {/* Base Image Layer (z-10) */}
             <div
@@ -262,10 +343,11 @@ const Info = () => {
           </div>
 
           {/* Bottom Right Content: Rotating Text Badge */}
-          <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 z-20">
+          {/* On mobile: centered between title and image. On md+: bottom-right */}
+          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:left-auto md:translate-x-0 md:right-12 md:bottom-12 z-20">
             <a
               href="#discover"
-              className="group relative flex items-center justify-center w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72"
+              className="group relative flex items-center justify-center w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 lg:w-72 lg:h-72"
             >
               {/* Spinning SVG circle text */}
               <svg

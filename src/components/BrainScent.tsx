@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-import brainScentImg from "../../public/assets/brain_scent.png";
 import { motion, useInView } from "motion/react";
+import Image from "next/image";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import brainScentImg from "../../public/assets/brain_scent.png";
 
 interface BrainRegion {
   name: string;
@@ -145,6 +145,26 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <defs>
+                {BRAIN_ORIGINS.map((origin, i) => {
+                  const end = circlePoints[i];
+                  const d = buildWavyPath(origin.x, origin.y, end.x, end.y, i);
+                  return (
+                    <mask id={`path-mask-${i}`} key={`mask-${i}`}>
+                      <motion.path
+                        d={d}
+                        stroke="white"
+                        strokeWidth="6"
+                        strokeLinecap="round"
+                        fill="none"
+                        initial={{ pathLength: 0 }}
+                        animate={isInView ? { pathLength: 1 } : {}}
+                        transition={{ delay: 1.0, duration: 1.2, ease: "easeInOut" }}
+                      />
+                    </mask>
+                  );
+                })}
+              </defs>
               {BRAIN_ORIGINS.map((origin, i) => {
                 const end = circlePoints[i];
                 const d = buildWavyPath(origin.x, origin.y, end.x, end.y, i);
@@ -161,27 +181,15 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
                       transition={{ delay: 0.8, duration: 0.4, ease: "easeOut" }}
                     />
                     {/* Wavy dashed path */}
-                    <motion.path
+                    <path
                       d={d}
                       stroke="#9CA3AF"
-                      strokeWidth="1.4"
-                      strokeDasharray="4 5"
+                      strokeWidth="1.6"
+                      strokeDasharray="5 5"
                       strokeLinecap="round"
                       fill="none"
                       opacity="0.85"
-                      initial={{ pathLength: 0 }}
-                      animate={isInView ? { pathLength: 1 } : {}}
-                      transition={{ delay: 1.0, duration: 1.2, ease: "easeInOut" }}
-                    />
-                    {/* Green dot exactly at circle center */}
-                    <motion.circle
-                      cx={end.x}
-                      cy={end.y}
-                      r="4.5"
-                      fill="#84cc16"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                      transition={{ delay: 2.2, duration: 0.3, ease: "easeOut" }}
+                      mask={`url(#path-mask-${i})`}
                     />
                   </React.Fragment>
                 );
@@ -204,15 +212,14 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
               </h2>
 
               <div className="flex flex-col gap-2 mt-2">
-                <span className="font-montreal text-[22px] text-black font-medium">
+                <span className="text-[22px] text-black font-medium">
                   Recommended Fragrances Families
                 </span>
                 <div className="flex flex-wrap gap-2 md:gap-3 max-w-[420px]">
                   {["LAVENDER", "WHITE TEA", "SANDLEWOOD", "JASMINE"].map((pill) => (
                     <span
                       key={pill}
-                      className="font-montreal text-[18px] text-black bg-transparent rounded-full"
-                      style={{ border: "1px solid black", padding: "6px 10px" }}
+                      className="text-[18px] text-black bg-transparent rounded-full border border-black px-[10px] py-[6px]"
                     >
                       {pill}
                     </span>
@@ -245,8 +252,8 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
             {regionsData.map((region, index) => (
               <motion.div
                 key={region.name}
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
                 transition={{ delay: 2.2 + index * 0.2, duration: 0.6, ease: "easeOut" }}
                 className="flex gap-5 items-start group"
               >
@@ -261,13 +268,13 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
 
                 {/* Content Details */}
                 <div className="flex flex-col gap-1 text-left pt-1">
-                  <h3 className="font-montreal font-medium text-[26px] text-[#171717] leading-tight">
+                  <h3 className="font-medium text-[26px] text-[#171717] leading-tight">
                     {region.name}
                   </h3>
-                  <span className={`font-montreal font-medium italic text-[18px] ${region.effectColor}`}>
+                  <span className={`font-medium italic text-[18px] ${region.effectColor}`}>
                     [ {region.effect} ]
                   </span>
-                  <p className="font-montreal text-[18px] text-[#606060] leading-relaxed max-w-[360px] mt-1">
+                  <p className="text-[18px] text-[#606060] leading-relaxed max-w-[360px] mt-1">
                     {region.description}
                   </p>
                 </div>

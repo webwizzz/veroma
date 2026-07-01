@@ -1,5 +1,6 @@
 "use client";
 
+import gsap from "gsap";
 import { cylinderConfig, imageConfig, images, particleConfig, widgets } from "@/lib/variant-1/data";
 import { cylinderFragment, cylinderVertex, particleFragment, particleVertex, yellowLineFragment } from "@/lib/variant-1/shaders";
 import type { CameraAnimation, ParticleMesh } from "@/lib/variant-1/types";
@@ -38,6 +39,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
     // 3D Refs
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const cardRef = useRef<HTMLDivElement | null>(null);
+    const nameRef = useRef<HTMLHeadingElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const sceneRef = useRef<Transform | null>(null);
     const cameraRef = useRef<Camera | null>(null);
@@ -84,6 +86,32 @@ export const Animation3D: React.FC<Animation3DProps> = ({
         }
     }, [is3D]);
 
+    // Animate active item name on change (using fx25 style: scaleY + opacity)
+    useEffect(() => {
+        if (!is3D || isLoading3D) return;
+
+        const chars = nameRef.current?.querySelectorAll(".char");
+        if (chars && chars.length > 0) {
+            gsap.killTweensOf(chars);
+            gsap.fromTo(
+                chars,
+                {
+                    "will-change": "transform, opacity",
+                    transformOrigin: "50% 100%",
+                    scaleY: 0,
+                    opacity: 0,
+                },
+                {
+                    ease: "power3.out",
+                    opacity: 1,
+                    scaleY: 1,
+                    stagger: 0.03,
+                    duration: 0.6,
+                }
+            );
+        }
+    }, [activeIndex, is3D, isLoading3D]);
+
     // 3D OGL & Interaction Setup
     useEffect(() => {
         if (!is3D) return;
@@ -121,9 +149,9 @@ export const Animation3D: React.FC<Animation3DProps> = ({
             const isMobile = width < 768;
             const isTablet = width >= 768 && width < 1024;
 
-            const maxRadius = isMobile ? 1.3 : isTablet ? 1.8 : 2.5;
+            const maxRadius = isMobile ? 1.4 : isTablet ? 1.8 : 2.5;
             const cylinderHeight = isMobile ? 1.2 : isTablet ? 1.5 : 2.4;
-            const cameraZ = isMobile ? 5.3 : isTablet ? 6.3 : 6.7;
+            const cameraZ = isMobile ? 4.5 : isTablet ? 6.3 : 6.7;
             const fov = isMobile ? 50 : 47;
 
             return {
@@ -496,10 +524,10 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                 </div>
             )}
 
-            {/* 3D View Container (Rounded Black Card) */}
+            {/* 3D View Container (Rounded Black Card on Desktop/Tablet, Full Screen on Mobile) */}
             <div
                 ref={cardRef}
-                className={`fixed inset-x-6 bottom-6 top-20 z-0 bg-black rounded-[32px] overflow-hidden transition-opacity duration-700 ease-in-out ${is3D ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                className={`fixed md:inset-x-6 md:bottom-6 md:top-20 inset-0 z-0 bg-black md:rounded-[32px] rounded-none overflow-hidden transition-opacity duration-700 ease-in-out ${is3D ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                 style={{ transformOrigin: "bottom center" }}
             >
                 {/* Background Video */}
@@ -509,7 +537,7 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     loop
                     muted
                     playsInline
-                    className="absolute bottom-[-2rem] left-[60rem] -translate-x-[50%] w-[100%] h-[50%] object-contain pointer-events-none z-0"
+                    className="absolute md:bottom-[-2rem] bottom-[-4rem] md:left-[60rem] left-1/2 -translate-x-1/2 w-full md:w-[100%] md:h-[50%] h-[40%] object-contain pointer-events-none z-0"
                 />
 
                 {/* Top Left Tagline */}
@@ -521,17 +549,17 @@ export const Animation3D: React.FC<Animation3DProps> = ({
 
                 <canvas
                     ref={canvasRef}
-                    className="absolute left-[-1.5rem] top-[-7rem] w-screen h-screen max-w-none z-10"
+                    className="absolute md:left-[-1.5rem] md:top-[-7rem] left-0 top-[-3rem] w-full h-full md:w-screen md:h-screen max-w-none z-10"
                     style={{ display: "block" }}
                 />
 
-                {/* Horizontally Stacked Navigation Buttons at the bottom right */}
-                <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 flex flex-row gap-4 md:gap-5 z-20">
+                {/* Slide Navigation & CTA Buttons */}
+                <div className="absolute bottom-[30%] left-0 w-full px-6 md:bottom-8 md:right-8 md:left-auto md:w-auto md:px-0 flex flex-row justify-between md:justify-start items-center gap-4 md:gap-5 z-20 pointer-events-none">
                     {/* Previous Slide Button (Left) */}
                     <button
                         onClick={handlePrev}
                         aria-label="Previous Project"
-                        className="relative w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none"
+                        className="relative w-25 h-25 md:w-24 md:h-24 rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none pointer-events-auto"
                     >
                         {/* Gradient Border Circle */}
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
@@ -552,11 +580,18 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                         </svg>
                     </button>
 
+                    {/* Discover CTA Button (Center) */}
+                    <div className="pointer-events-auto">
+                        <button className="px-5 md:px-8 py-5 md:py-2.5 rounded-full bg-white text-black font-sans font-semibold text-lg md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                            Discover
+                        </button>
+                    </div>
+
                     {/* Next Slide Button (Right) */}
                     <button
                         onClick={handleNext}
                         aria-label="Next Project"
-                        className="relative w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none"
+                        className="relative w-25 h-25 md:w-24 md:h-24 rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none pointer-events-auto"
                     >
                         {/* Gradient Border Circle */}
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
@@ -578,22 +613,29 @@ export const Animation3D: React.FC<Animation3DProps> = ({
                     </button>
                 </div>
 
-                {/* Flower Info Overlay (Bottom Left) */}
-                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20 flex flex-col items-start text-left max-w-[320px] sm:max-w-sm md:max-w-lg pointer-events-auto">
+                {/* Flower Info Overlay - Name (Top on Mobile, Bottom-Left on Desktop above CTA) */}
+                <div className="absolute top-28 left-6 md:bottom-24 md:left-8 md:top-auto z-20 flex flex-col items-start text-left w-[calc(100%-3rem)] md:max-w-lg pointer-events-auto">
                     {/* Flower Name */}
-                    <h2 className="font-bebas font-bold text-[4.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none whitespace-nowrap">
-                        {widgets[activeIndex]?.name}
+                    <h2
+                        ref={nameRef}
+                        className="font-bebas font-bold text-[5.5rem] sm:text-[6.5rem] md:text-[8.5rem] text-white leading-none tracking-tight uppercase select-none md:whitespace-nowrap whitespace-normal"
+                    >
+                        {(widgets[activeIndex]?.name || "").split(" ").map((word, wIdx, arr) => (
+                            <span key={wIdx} className="inline-block whitespace-nowrap">
+                                {word.split("").map((char, cIdx) => (
+                                    <span key={cIdx} className="char inline-block">
+                                        {char}
+                                    </span>
+                                ))}
+                                {wIdx < arr.length - 1 && "\u00A0"}
+                            </span>
+                        ))}
                     </h2>
 
                     {/* Short Description */}
                     {/* <p className="mt-3 text-xs sm:text-sm md:text-base font-sans font-light text-white/80 select-none leading-relaxed">
                         {widgets[activeIndex]?.desc}
                     </p> */}
-
-                    {/* CTA Button */}
-                    <button className="mt-5 px-6 md:px-8 py-2 md:py-2.5 rounded-full bg-white text-black font-sans font-bold text-xs md:text-sm tracking-wider uppercase cursor-pointer hover:scale-105 hover:bg-white/90 active:scale-95 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] self-start">
-                        Discover
-                    </button>
                 </div>
             </div>
         </>
