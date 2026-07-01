@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { WindowSizeProvider } from "@/app/providers";
-import localFont from "next/font/local"
 
 
 const neue = localFont({
@@ -60,38 +59,7 @@ const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const baflionSans = localFont({
-  src: "../fonts/BaflionSans-Black.otf",
-  variable: "--font-baflion-sans",
-  display: "swap",
-});
 
-const neueMontreal = localFont({
-  src: [
-    {
-      path: "../fonts/NeueMontreal-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NeueMontreal-Medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NeueMontreal-Bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../fonts/NeueMontreal-Italic.otf",
-      weight: "400",
-      style: "italic",
-    },
-  ],
-  variable: "--font-neue-montreal",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
