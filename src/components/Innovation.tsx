@@ -76,7 +76,7 @@ function Innovation() {
           className="flex -translate-x-1/2 translate-y-1/4 items-center justify-center gap-2 rounded-full px-5 py-2 text-white"
         >
           Discover More
-          <NavigateSVG style={{ fill: "white" }} className="size-2.5" />
+          <NavigateSVG className="size-2.5 fill-white" />
         </CustomCursor>
       )}
     </div>
