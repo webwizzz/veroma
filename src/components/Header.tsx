@@ -9,8 +9,7 @@ if (typeof window !== "undefined") {
 }
 
 export const Header = () => {
-    const headerRef = useRef<HTMLHeadingElement | null>(null);
-
+    const headerRef = useRef<HTMLElement | null>(null);
     useEffect(() => {
         const header = headerRef.current;
         if (!header) return;
