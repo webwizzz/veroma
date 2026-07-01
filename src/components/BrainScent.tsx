@@ -216,8 +216,7 @@ export default function BrainScent({ style, className }: { style?: React.CSSProp
                   Recommended Fragrance Families
                 </span>
                 <div className="flex flex-wrap gap-2 md:gap-3 max-w-[420px]">
-                  {["LAVENDER", "WHITE TEA", "SANDLEWOOD", "JASMINE"].map((pill) => (
-                    <span
+                  {["LAVENDER", "WHITE TEA", "SANDALWOOD", "JASMINE"].map((pill) => (
                       key={pill}
                       className="text-[18px] text-black bg-transparent rounded-full border border-black px-[10px] py-[6px]"
                     >
